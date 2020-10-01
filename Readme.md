@@ -2,7 +2,7 @@
 
 This is an example project with the BlinkID sdk that shows, that opening multiple activities back to back with a recognizer view is problematic.
 This error only occurs on android 11 (API level 30).
-Tested with BlinkId 5.0.7.
+Tested with BlinkId 5.7.0.
 
 The project already contains a demo license key.
 
