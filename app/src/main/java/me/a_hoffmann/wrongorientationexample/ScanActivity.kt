@@ -8,6 +8,7 @@ import com.microblink.entities.recognizers.RecognizerBundle
 import com.microblink.entities.recognizers.blinkid.generic.BlinkIdRecognizer
 import com.microblink.entities.recognizers.successframe.SuccessFrameGrabberRecognizer
 import com.microblink.hardware.orientation.Orientation
+import com.microblink.recognition.RecognitionSuccessType
 import com.microblink.view.CameraEventsListener
 import com.microblink.view.recognition.ScanResultListener
 import kotlinx.android.synthetic.main.activity_scan.*
@@ -24,18 +25,21 @@ class ScanActivity : AppCompatActivity(), CameraEventsListener {
         recognizerView.initialOrientation = Orientation.ORIENTATION_LANDSCAPE_RIGHT
         recognizerView.setOrientationAllowedListener { true }
 
-        val scanResultListener = ScanResultListener {
-            val result: BlinkIdRecognizer.Result = recognizer.slaveRecognizer.result as BlinkIdRecognizer.Result
-            if (result.resultState == Recognizer.Result.State.Valid) {
+        val scanResultListener = object : ScanResultListener {
+            override fun onScanningDone(var1: RecognitionSuccessType){
+                val result: BlinkIdRecognizer.Result = recognizer.slaveRecognizer.result as BlinkIdRecognizer.Result
+                if (result.resultState == Recognizer.Result.State.Valid) {
 
+                }
+
+                val immutableCopy = result.clone()
+                recognizerView.resetRecognitionState()
+                recognizerView.pauseScanning()
+
+                setResult(RESULT_OK)
+                finish()
             }
-
-            val immutableCopy = result.clone()
-            recognizerView.resetRecognitionState()
-            recognizerView.pauseScanning()
-
-            setResult(RESULT_OK)
-            finish()
+            override fun onUnrecoverableError(var1: Throwable){}
         }
 
         recognizerView.setScanResultListener(scanResultListener)
