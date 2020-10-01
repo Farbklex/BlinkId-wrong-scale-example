@@ -13,6 +13,6 @@ Steps to reproduce:
 4. Wait until the scan view is opened again automatically
 5. The camera view has now a wrong scale
 
-![Example flow](./Example.png)
+![Example flow](flow.png)
 
 Adding a timeout of ~500ms before opening the scan activity a second time solves the problem in this case.
